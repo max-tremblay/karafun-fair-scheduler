@@ -27,33 +27,33 @@ class QueueManagerTest(unittest.TestCase):
 	def test_a(self):
 		qm = QueueManager(False)
 		queue = [
-			{u'status': u'playing', u'queueId': u'D6E07CCEA252D728F08CA93EDD81C3BE', u'singer': u'Jille', u'artist': u'moonlight-kissed', u'title': u'moonlight-kissed', u'songId': 0, u'id': 0},
-			{u'status': u'ready', u'queueId': u'982FDEB56480D79BA5081E2ADB534628', u'singer': u'Milka', u'artist': u'Avenged Sevenfold', u'title': u'Afterlife', u'songId': 29745, u'id': 1},
-			{u'status': u'ready', u'queueId': u'3C69C3CF359C6B047813435166B67AE2', u'singer': u'Milka', u'artist': u'Avenged Sevenfold', u'title': u'Beast and the Harlot', u'songId': 53004, u'id': 2},
-			{u'status': u'ready', u'queueId': u'AF805022EFB9356B802EE3A6977375C5', u'singer': u'Kevin', u'artist': u'code-in-go', u'title': u'code-in-go', u'songId': 0, u'id': 3},
-			{u'status': u'ready', u'queueId': u'E66C02C7B8967B3F599E27682262CF2C', u'singer': u'Jille', u'artist': u'code-in-go', u'title': u'code-in-go', u'songId': 0, u'id': 4},
+			{u'status': u'playing', u'queueId': u'D6E07CCEA252D728F08CA93EDD81C3BE', u'singer': u'Jille', u'artist': u'moonlight-kissed', u'title': u'moonlight-kissed', u'id': 0, u'id': 0},
+			{u'status': u'ready', u'queueId': u'982FDEB56480D79BA5081E2ADB534628', u'singer': u'Milka', u'artist': u'Avenged Sevenfold', u'title': u'Afterlife', u'id': 29745, u'id': 1},
+			{u'status': u'ready', u'queueId': u'3C69C3CF359C6B047813435166B67AE2', u'singer': u'Milka', u'artist': u'Avenged Sevenfold', u'title': u'Beast and the Harlot', u'id': 53004, u'id': 2},
+			{u'status': u'ready', u'queueId': u'AF805022EFB9356B802EE3A6977375C5', u'singer': u'Kevin', u'artist': u'code-in-go', u'title': u'code-in-go', u'id': 0, u'id': 3},
+			{u'status': u'ready', u'queueId': u'E66C02C7B8967B3F599E27682262CF2C', u'singer': u'Jille', u'artist': u'code-in-go', u'title': u'code-in-go', u'id': 0, u'id': 4},
 		]
 		action = qm.reconcile(queue)
-		print action
+		print(action)
 		queue = self.applyQueueMutation(queue, action)
-		print queue
+		print(queue)
 		self.assertEqual(queue, [
-			{u'status': u'playing', u'queueId': u'D6E07CCEA252D728F08CA93EDD81C3BE', u'singer': u'Jille', u'artist': u'moonlight-kissed', u'title': u'moonlight-kissed', u'songId': 0, u'id': 0},
-			{u'status': u'ready', u'queueId': u'982FDEB56480D79BA5081E2ADB534628', u'singer': u'Milka', u'artist': u'Avenged Sevenfold', u'title': u'Afterlife', u'songId': 29745, u'id': 1},
-			{u'status': u'ready', u'queueId': u'AF805022EFB9356B802EE3A6977375C5', u'singer': u'Kevin', u'artist': u'code-in-go', u'title': u'code-in-go', u'songId': 0, u'id': 2},
-			{u'status': u'ready', u'queueId': u'3C69C3CF359C6B047813435166B67AE2', u'singer': u'Milka', u'artist': u'Avenged Sevenfold', u'title': u'Beast and the Harlot', u'songId': 53004, u'id': 3},
-			{u'status': u'ready', u'queueId': u'E66C02C7B8967B3F599E27682262CF2C', u'singer': u'Jille', u'artist': u'code-in-go', u'title': u'code-in-go', u'songId': 0, u'id': 4},
+			{u'status': u'playing', u'queueId': u'D6E07CCEA252D728F08CA93EDD81C3BE', u'singer': u'Jille', u'artist': u'moonlight-kissed', u'title': u'moonlight-kissed', u'id': 0, u'id': 0},
+			{u'status': u'ready', u'queueId': u'982FDEB56480D79BA5081E2ADB534628', u'singer': u'Milka', u'artist': u'Avenged Sevenfold', u'title': u'Afterlife', u'id': 29745, u'id': 1},
+			{u'status': u'ready', u'queueId': u'AF805022EFB9356B802EE3A6977375C5', u'singer': u'Kevin', u'artist': u'code-in-go', u'title': u'code-in-go', u'id': 0, u'id': 2},
+			{u'status': u'ready', u'queueId': u'3C69C3CF359C6B047813435166B67AE2', u'singer': u'Milka', u'artist': u'Avenged Sevenfold', u'title': u'Beast and the Harlot', u'id': 53004, u'id': 3},
+			{u'status': u'ready', u'queueId': u'E66C02C7B8967B3F599E27682262CF2C', u'singer': u'Jille', u'artist': u'code-in-go', u'title': u'code-in-go', u'id': 0, u'id': 4},
 		])
 		action = qm.reconcile(queue)
-		print action
+		print(action)
 		queue = self.applyQueueMutation(queue, action)
-		print queue
+		print(queue)
 		self.assertEqual(queue, [
-			{u'status': u'playing', u'queueId': u'D6E07CCEA252D728F08CA93EDD81C3BE', u'singer': u'Jille', u'artist': u'moonlight-kissed', u'title': u'moonlight-kissed', u'songId': 0, u'id': 0},
-			{u'status': u'ready', u'queueId': u'982FDEB56480D79BA5081E2ADB534628', u'singer': u'Milka', u'artist': u'Avenged Sevenfold', u'title': u'Afterlife', u'songId': 29745, u'id': 1},
-			{u'status': u'ready', u'queueId': u'AF805022EFB9356B802EE3A6977375C5', u'singer': u'Kevin', u'artist': u'code-in-go', u'title': u'code-in-go', u'songId': 0, u'id': 2},
-			{u'status': u'ready', u'queueId': u'E66C02C7B8967B3F599E27682262CF2C', u'singer': u'Jille', u'artist': u'code-in-go', u'title': u'code-in-go', u'songId': 0, u'id': 3},
-			{u'status': u'ready', u'queueId': u'3C69C3CF359C6B047813435166B67AE2', u'singer': u'Milka', u'artist': u'Avenged Sevenfold', u'title': u'Beast and the Harlot', u'songId': 53004, u'id': 4},
+			{u'status': u'playing', u'queueId': u'D6E07CCEA252D728F08CA93EDD81C3BE', u'singer': u'Jille', u'artist': u'moonlight-kissed', u'title': u'moonlight-kissed', u'id': 0, u'id': 0},
+			{u'status': u'ready', u'queueId': u'982FDEB56480D79BA5081E2ADB534628', u'singer': u'Milka', u'artist': u'Avenged Sevenfold', u'title': u'Afterlife', u'id': 29745, u'id': 1},
+			{u'status': u'ready', u'queueId': u'AF805022EFB9356B802EE3A6977375C5', u'singer': u'Kevin', u'artist': u'code-in-go', u'title': u'code-in-go', u'id': 0, u'id': 2},
+			{u'status': u'ready', u'queueId': u'E66C02C7B8967B3F599E27682262CF2C', u'singer': u'Jille', u'artist': u'code-in-go', u'title': u'code-in-go', u'id': 0, u'id': 3},
+			{u'status': u'ready', u'queueId': u'3C69C3CF359C6B047813435166B67AE2', u'singer': u'Milka', u'artist': u'Avenged Sevenfold', u'title': u'Beast and the Harlot', u'id': 53004, u'id': 4},
 		])
 		queue.pop(0)  # Song finished playing
 		queue = self.reindexQueue(queue)

@@ -8,11 +8,7 @@ class QueueManager(object):
 		self.hideSingers = hideSingers
 	
 	def getSinger(self, s):
-		if s['songId'] == 0:
-			return s['singer']
-		if s['songId'] not in self.song2singer:
-			self.song2singer[s['songId']] = s['singer']
-		return self.song2singer[s['songId']]
+		return "N/A" if 'singer' not in s else s['singer']
 	
 	def getParsedSinger(self, s):
 		singer = self.getSinger(s)
@@ -27,7 +23,7 @@ class QueueManager(object):
 			return
 
 		# Clean up old entries in self.song2singer.
-		unseen = set(self.song2singer.keys()) - {s['songId'] for s in queue}
+		unseen = set(self.song2singer.keys()) - {s['id'] for s in queue}
 		for qid in unseen:
 			del self.song2singer[qid]
 
@@ -51,9 +47,9 @@ class QueueManager(object):
 			# Deduplicate songs, keeping the first.
 			seen = set()
 			for s in queue[1:]:
-				if s['songId'] > 0 and s['songId'] in seen:
+				if s['id'] > 0 and s['id'] in seen:
 					return ('queueRemove', s['queueId'])
-				seen.add(s['songId'])
+				seen.add(s['id'])
 
 		idx = 1
 		while idx < len(queue):
@@ -73,7 +69,7 @@ class QueueManager(object):
 
 		if self.hideSingers:
 			for s in queue[1:]:
-				if s['songId'] > 0 and s['singer'] != '':
-					return ('queueAdd', {'songId': int(s['songId']), 'pos': s['id'], 'singer': ''})
+				if s['id'] > 0 and s['singer'] != '':
+					return ('queueAdd', {'id': int(s['id']), 'pos': s['id'], 'singer': ''})
 
 		return None
