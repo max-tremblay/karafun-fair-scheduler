@@ -3,7 +3,7 @@
 Usage is simple:
 
 ```shell
-$ pip install "python-socketio<5.0.0"
+$ pip install -r requirement.txt
 $ python scheduler.py 123456
 ```
 
