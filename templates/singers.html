@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Singers by ID</title>
+    <meta http-equiv="refresh" content="5">
+    <style>
+        body {
+            background-color: transparent;
+        }
+
+        h1, ul {
+            color: white;
+            font-weight: 900;
+            font-size: 20px;
+            font-family: Arial, sans-serif;
+            -webkit-text-stroke: 1px black; /* Webkit for Chrome/Safari */
+            width: 20ch; /* Set width to 20 characters */
+            white-space: nowrap; /* Prevent wrapping */
+            overflow: hidden; /* Hide overflow */
+            text-overflow: ellipsis;
+        }
+
+        li {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        {% for singer in singers [:5] %}
+            <li>{{ singer }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

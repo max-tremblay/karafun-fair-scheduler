@@ -1,8 +1,12 @@
 import collections
+import functools
+from typing import List
 
 class QueueManager(object):
+	actualQueue = {}
 
 	def __init__(self, hideSingers):
+		self.skip: List[str] = list()
 		self.singerRotation = []
 		self.song2singer = {}
 		self.hideSingers = hideSingers
@@ -10,13 +14,23 @@ class QueueManager(object):
 	def getSinger(self, s):
 		return "N/A" if 'singer' not in s else s['singer']
 	
-	def getParsedSinger(self, s):
-		singer = self.getSinger(s)
-		if singer.endswith('!'):
-			return singer[:-1], True
-		return singer, False
+	def getQueue(self):
+		return self.actualQueue
 	
-	def reconcile(self, queue):
+	def getParsedSinger(self, s):
+		return self.getSinger(s)
+
+	def unique_id(self, e):
+		singer = e["singer"]
+		artist = e["artist"]
+		title = e["title"]
+		return f"{singer}{artist}{title}"
+	
+	def skip_this_one(self, elem):
+		self.skip.append(self.unique_id(elem))
+	
+	def reconcile(self, queue: List):
+		self.actualQueue = queue
 		if not queue:
 			self.singerRotation = []
 			self.song2singer = {}
@@ -27,15 +41,22 @@ class QueueManager(object):
 		for qid in unseen:
 			del self.song2singer[qid]
 
+		# also clean old next entries
+		for key in self.skip:
+			if not any(key == self.unique_id(e) for e in queue) or self.unique_id(queue[0]) in self.skip:
+				b = key.replace(" ", "-")
+				print(f"Cleaning prioritized key {b}")
+				self.skip = list(filter(lambda x: x != key, self.skip))
+
 		singerQueues = collections.defaultdict(list)
 		for s in queue[1:]:
-			singer, bang = self.getParsedSinger(s)
+			singer = self.getParsedSinger(s)
+			if (self.unique_id(s) in self.skip):
+				continue
 			if singer not in self.singerRotation:
 				self.singerRotation.append(singer)
-			if bang and singerQueues[singer]:
-				singerQueues[singer][-1].append(s)
-			else:
-				singerQueues[singer].append([s])
+			
+			singerQueues[singer].append([s])
 
 		if self.singerRotation and self.getParsedSinger(queue[0])[0] == self.singerRotation[0]:
 			self.singerRotation = self.singerRotation[1:] + self.singerRotation[:1]
@@ -51,15 +72,14 @@ class QueueManager(object):
 					return ('queueRemove', s['queueId'])
 				seen.add(s['id'])
 
-		idx = 1
-		while idx < len(queue):
-			if singerQueues['_next']:
-				r = ['_next']
-			elif singerQueues['']:
-				r = ['']
-			else:
-				r = self.singerRotation
-			for singer in r:
+		def calc_remaining(singer_list):
+			values = singer_list.values()
+			return functools.reduce(lambda a,b: a + len(b), values, 0)
+		
+		idx = 1 + len(self.skip)
+
+		while calc_remaining(singerQueues) > 0:
+			for singer in [''] if singerQueues[''] else self.singerRotation:
 				if not singerQueues[singer]:
 					continue
 				for s in singerQueues[singer].pop(0):

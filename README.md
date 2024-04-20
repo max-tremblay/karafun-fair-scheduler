@@ -4,7 +4,7 @@ Usage is simple:
 
 ```shell
 $ pip install -r requirement.txt
-$ python scheduler.py 123456
+$ python main.py 123456
 ```
 
 The scheduler will connect to Karafun and manage your queue. Your guests can queue music as usual and the scheduler will automatically reorder them for fairness.
@@ -15,9 +15,20 @@ You must turn on "Ask singer's name when adding to queue" in the Karafun remote 
 
 ## Tricks
 
-If you want to queue a song right after the current one, fill in the singers name "_next" and the scheduler will put it on top.
+To move a song to be on the next list, just invoke
 
-If you want two of yours songs to happen directly after another, append an exclamation mark to your name for the second one.
+```bash
+#curl 127.0.0.1:8080/next/<current_position>
+curl 127.0.0.1:8080/next/4
+```
+
+## OBS
+
+You can display a list of the next five singers by going to `http://127.0.0.1/`
+
+## Dump current queue
+
+Just use `http://127.0.0.1/json`
 
 ## Known issues / limitations
 
@@ -26,7 +37,3 @@ If you enable `--hide-singers`, the tool will deduplicate any songs that are que
 `--hide-singers` doesn't work for Community Songs, only for songs from the Karafun catalog.
 
 If you enable `--hide-singers`, restarting the tool without emptying the queue will cause undefined behavior.
-
-Queueing a song with your name and an exclamation mark basically treats the two songs as one. It should probably count as multiple songs instead, and push your further songs back.
-
-^C (ctrl-c) doesn't work to kill the tool. I believe this to be a python-socketio bug and am too lazy to debug it. Try ^\ (ctrl-\) instead.
