@@ -3,7 +3,7 @@
 Usage is simple:
 
 ```shell
-$ pip install -r requirement
+$ pip install -r requirement.txt
 $ python scheduler.py 123456
 ```
 
